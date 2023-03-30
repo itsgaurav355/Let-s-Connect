@@ -1,7 +1,7 @@
 from django.shortcuts import render , redirect
 from django.contrib.auth.models import User, auth
 from django.http import HttpResponse
-from .models import Profile ,Post,LikePost,Followers
+from .models import Profile ,Post,LikePost,Followers,Thread
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from itertools import chain
@@ -246,3 +246,15 @@ def follow(request):
             return redirect('/profile/'+user)
     else:
         return redirect('/')
+    
+@login_required(login_url='signin')
+def messages_page(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    threads = Thread.objects.by_user(user=request.user).prefetch_related('chatmessage_thread').order_by('timestamp')
+    context = {
+        'user_object': user_object,
+        'user_profile': user_profile,
+        'Threads': threads
+    }
+    return render(request,'messages.html',context)
