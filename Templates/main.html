@@ -1,0 +1,527 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Let's Connect</title>
+	 <!-- add bootstrap css file -->
+
+      <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'assets/css/main.css' %}">
+      <style>
+        @import url('https://fonts.googleapis.com/css?family=Raleway');
+
+        body{
+          padding: 0;
+          margin: 0;
+          background:#f4f4f4;
+
+        }
+        html,h1,h2,h3,h4,h5,h6,a{
+          font-family: "Raleway";
+        }
+
+        ::-webkit-scrollbar {
+          width: 20px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+          box-shadow: inset 0 0 5px grey;
+          border-radius: 10px;
+        }
+        ::-webkit-scrollbar{width : 15px;  }
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+          background: red;
+          border-radius: 10px;
+        }
+
+        .navbar{
+          background:black;
+          
+        }
+        .nav-link , .navbar-brand{
+          color: #f4f4f4;
+          cursor: pointer;
+        }
+        .nav-link{
+          margin-right: 1em !important;
+        }
+        .nav-link:hover{
+          background: #f4f4f4;
+          color: blue;
+
+        }
+        .navbar-collapse{
+        justify-content: flex-end;
+        }
+        .navbar-toggler{
+          background:#fff !important;
+        }
+
+        /*header style*/
+        .header{
+          position: relative;
+          background-image: url('../../images/headerback.jpg');
+
+          background-size: cover;
+          background-position: center;
+        }
+        .overlay{
+          position: absolute;
+          min-height: 100%;
+          min-width: 100%;
+          left: 0;
+          top: 0;
+          background: rgba(244, 244, 244, 0.79);
+        }
+        .description{
+            position: absolute;
+            top: 30%;
+            margin: auto;
+            padding: 2em;
+
+        }
+        .description h1{
+          color:blue ;
+        }
+        .description p{
+          color:#666;
+          font-size: 20px;
+          width: 50%;
+          line-height: 1.5;
+        }
+        .description button{
+          border:1px  solid black;
+          background:blue;
+          color:#fff;
+        }
+        .about{
+          margin: 4em 0;
+          padding: 1em;
+          position: relative;
+        }
+        .about h1{
+          color:#0f0e5c;
+          margin: 2em;
+        }
+        .about img{
+          height: 100%;
+            width: 100%;
+            border-radius: 50%
+        }
+        .about span{
+          display: block;
+          color: #888;
+          position: absolute;
+          left: 115px;
+        }
+        .about .desc{
+          padding: 2em;
+          border-left:4px solid #10828C;
+        }
+        .about .desc h3{
+          color: #10828C;
+        }
+        .about .desc p{
+          line-height:2;
+          color:#888;
+        }
+
+
+        /*Portfolio*/
+        .portfolio{
+          margin: 4em 0;
+            position: relative;	
+        }
+        .portfolio h1{
+          color:#0f0e5c;
+          margin: 2em;	
+        }
+        .portfolio img{
+          height: 15rem;
+          width: 100%;
+          margin: 1em;
+
+          
+
+        }
+
+        /*blog style*/
+
+        .blog{
+          margin: 4em 0;
+          position: relative;	
+        }
+        .blog h1{
+          color:#0f0e5c;
+          margin: 2em;	
+        }
+        .blog .card{
+          box-shadow: 0 0 20px #ccc;
+        }
+        .blog .card img{
+          width: 100%;
+          height: 12em;
+        }
+        @media (max-width: "768px"){
+        .team .item img{
+          width: 100%;
+        }	
+        }
+        .blog .card-title{
+          color:#0f0e5c;
+          
+        }
+        .blog .card-body{
+          padding: 1em;
+        }
+        .team{
+          margin: 4em 0;
+          position: relative;
+
+        }
+        .team h1{
+          color:#0f0e5c;
+          margin: 2em;	
+        }
+        .team .item{
+          position: relative;
+          overflow: hidden;	
+        }
+        .team .des{
+          background: #0f0e5c;
+          color: #fff;
+          text-align: center;
+          border-top-right-radius: 93%;
+          transition:.3s ease-in-out;
+          position: absolute;
+          width: 88%;
+          bottom: 24px;
+
+
+        }
+        .team .item:hover .des{
+          height: 100%;
+          background:#03ecec7d;
+            position: absolute;
+          width: 89%;
+          padding: 5em;
+          top: 0;
+          border-top-right-radius: 0;
+        }
+        .contact-form{
+          margin: 6em 0;
+          position: relative;		
+        }
+
+        .contact-form h1{
+          padding:2em 1px;
+          color: #0f0942; 
+        }
+        .contact-form .right{
+          max-width: 600px;
+        }
+        .contact-form .right .btn-secondary{
+          background:  #0f0942;
+          color: #fff;
+          border:0;
+        }
+        .contact-form .right .form-control::placeholder{
+          color: #888;
+          font-size: 16px;
+        }
+        .accordion-item{
+          text-decoration: None;
+          color:#1322f7;
+          font-size: 25px;
+
+        }
+        .accordion-button{
+          outline: none;
+        }
+        
+      </style>
+</head>
+<body>
+  <!-- navbar -->
+
+  <nav class="navbar navbar-expand-lg fixed-top ">
+	  <a class="navbar-brand" href="#">Home</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+
+	  <div class="collapse navbar-collapse " id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-4">
+	      
+	      <li class="nav-item">
+	        <a class="nav-link" data-value="about" href="#">About</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link " data-value="portfolio" href="#">Features</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link " data-value="blog" href="#">FAQ</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link " data-value="team" href="#">
+	        Team</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link " data-value="contact" href="#">Contact Us</a>
+	      </li>
+	    </ul>
+	    
+	  </div>
+</nav>
+<!-- header -->
+<header class="header ">
+  <img src="{% static 'images/headerback.jpg' %}" style= "height:100% ; width:100%" alt="">
+  <div class="overlay"></div>
+   <div class="container">
+   	  <div class="description ">
+  	<h1>
+  		Hello ,Welcome To Let's Connect
+  		<p>
+        Let’s Connect aims to empower entrepreneurs and businesses to be more innovative and successful by providing a range of services that allow them to engage in networking, growth and learning. </p>
+  		<button class="btn btn-outline-secondary btn-lg"><a href="/signin" class="bg-pink-500 pink-500 px-6 py-3 rounded-md shadow text-white">Login</a></button>
+  		<button class="btn btn-outline-secondary btn-lg"><a href="/signup" class="bg-pink-500 pink-500 px-6 py-3 rounded-md shadow text-white">Sign Up</a></button>
+  	</h1>
+  </div>
+   </div>
+  
+</header>
+
+<!-- about section -->
+<div class="about" id="about">
+	<div class="container">
+	  <h1 class="text-center" style="color: #150949;">About Let's Connect</h1>
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12">
+				<img src="{% static 'images/logo0.png' %}" class="img-fluid">
+				
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-12 desc">
+			  
+				<h3>Our Mission</h3>
+				<p style="font-size: 20px ;">
+				  Let’s Connect is a social media platform that is primarily designed for budding entrepreneurs and mentoring businessmen. Let’s Connect allows individuals to create a profile highlighting their education, work experience, skills, and achievements. The entrepreneurs can connect with other businessmen in their industry with years of experience for one-on-one mentorship that includes discussions about their startups and further career aspirations. Let’s Connect is a powerful tool for entrepreneurs looking to build their brands and advance their careers.
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- portfolio -->
+<div class="portfolio" id="portfolio">
+     <h1 class="text-center" style="color: #150949;">Features</h1>
+	<div class="container">
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="5000">
+          <img src="{% static 'images/p1.png' %}" class="d-block h-100" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="5000">
+          <img src="{% static 'images/p4.png' %}" class="d-block h-100" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="5000">
+          <img src="{% static 'images/p3.png' %}" class="d-block h-100" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="5000">
+          <img src="{% static 'images/p5.png' %}" class="d-block h-100" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="5000">
+          <img src="{% static 'images/p6.png' %}" class="d-block h-100" alt="...">
+        </div>
+      </div>
+    </div>
+	</div>
+</div>
+
+
+<!-- Posts section -->
+<div class="blog" id="blog">
+	<div class="container">
+	<h1 class="text-center" style="color: #150949;">FAQ</h1>
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          1. What is Let's Connect?
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <strong>Let's Connect</strong> is a professional social network that connects professionals from all around the world. The platform enables its members to create a professional profile, build their professional network, showcase their skills and expertise, and search for job opportunities.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo" >
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          2. How do I sign up for Let's Connect?
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          You can sign up for Let's Connect by visiting the website <strong> www.letsconnect.com </strong> and clicking on the "Sign Up" button you will get SignUp page from where you can start your journey. You will be prompted to enter your personal information and create a password.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          3. Is Let's Connect free to use?
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <strong>Yes, Let's Connect offers a free</strong>  basic account that allows you to create a profile, connect with other professionals, and search for job opportunities. However, there are also premium features and subscriptions available for purchase that offer additional benefits and functionality.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingFour">
+        <button class="accordion-button collapsed invisibile" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          4. How do I build a strong Let's Connect profile?
+        </button>
+      </h2>
+      <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          To build a strong Let's Connect profile, you should focus on the following areas: <br>
+          <strong>Headline:</strong>  Create a clear and concise headline that summarizes your professional identity and value proposition. <br>
+          <strong>Summary:</strong> Write a compelling summary that highlights your skills, experiences, and achievements. <br>
+          <strong>Experience:</strong> List your relevant work experience and highlight your accomplishments in each role. <br>
+          <strong>Education:</strong> Add your educational background and any relevant certifications or awards. <br>
+          <strong>Skills and endorsements: </strong>List your skills and ask for endorsements from your connections. <br>
+          <strong>Recommendations:</strong> Request recommendations from colleagues or supervisors who can speak to your skills and work ethic.
+
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingFive">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+          5. How do I connect with other professionals on Let's Connect?
+        </button>
+      </h2>
+      <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          To connect with other professionals on Let's Connect, you can search for people by name, job title, company, or location, and send them a connection request. You can also join Let's Connect groups related to your industry or interests and participate in discussions with other members.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2  id="headingSix">
+        <button class="accordion-button collapsed"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+          6. Can I use Let's Connect for business purposes?
+        </button>
+      </h2>
+      <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          Yes, Let's Connect can be a powerful tool for businesses to build their brand, connect with potential customers and partners, and recruit new employees. Businesses can create a Let's Connect company page, post updates and articles, and participate in industry-related groups and discussions.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingSeven">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+          7. Is Let's Connect safe to use?
+        </button>
+      </h2>
+      <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          Let's Connect takes the privacy and security of its members very seriously and has implemented a number of measures to protect user data and prevent fraudulent activity. However, it is important to be cautious when sharing personal information and to report any suspicious behavior or activity.
+        </div>
+      </div>
+    </div>
+  </div>
+	</div>
+</div>
+
+<!-- Team section -->
+<div class="team" id="team">
+	<div class="container">
+	   <h1 class="text-center">Our Team</h1>
+		<div class="row">
+			<div class="col-lg-3 col-md-3 col-sm-12 item">
+				<img src="{% static 'images/myimg2.jpg' %}" class="img-fluid" alt="team">
+				<div class="des">
+          Gaurav Prajapati
+				 </div>
+				<span class="text-muted" style="margin:0 0 10px 0">Full-Stack Developer</span>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-12 item">
+				<img src="{% static 'images/aditi.jpg' %}" class="img-fluid" alt="team">
+				<div class="des">
+          Aditi Shirke
+				 </div>
+				<span class="text-muted">Backend Developer</span>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-12 item">
+				<img src="{% static 'images/atharva2.jpg' %}" class="img-fluid" alt="team">
+				<div class="des">
+          Atharva Parab
+				 </div>
+				<span class="text-muted">Frontend Developer</span>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-12 item">
+				<img src="{% static 'images/srushti2.jpg' %}" class="img-fluid" alt="team">
+				 <div class="des">
+          Srushti Sakharkar 
+				 </div>
+				<span class="text-muted">UI / UX Designer</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Contact form -->
+<div class="contact-form" id="contact">
+	<div class="container">
+		<form action="review" method="POST" enctype="multipart/form-data">
+      {%csrf_token%}
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-12">
+				  <h1 style="color: #150949;">Get in Touch</h1>	
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-12 right">
+				   <div class="form-group">
+				   	 <input type="text" class="form-control form-control-lg" placeholder="Your Name" name="name">
+				   </div>
+				   <div class="form-group">
+				   	 <input type="email" class="form-control form-control-lg" placeholder="YourEmail@email.com" name="email">
+				   </div>
+				   <div class="form-group">
+				   	 <input type="textarea" class="form-control form-control-lg" placeholder="Description" name="description">
+				   </div>
+				   <input type="submit" class="btn btn-secondary btn-block" style="background-color: #150949;" value="Send" name="">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+	
+	<footer class="footer mt-auto py-3" style="background:#150949;">
+	<div class="container">
+		<p class="text-center text-white lead">Copyright &copy; <script type="text/javascript">
+			document.write(new Date().getFullYear());
+		  </script> Let's Connect</p>
+	  
+	</div>
+  </footer>
+<!-- add Javasscript file from js file -->
+<script>
+  var collapseElementList = [].slice.call(document.querySelectorAll('.collapse'))
+var collapseList = collapseElementList.map(function (collapseEl) {
+  return new bootstrap.Collapse(collapseEl)
+})
+</script>
+<script type="text/javascript" src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/main.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

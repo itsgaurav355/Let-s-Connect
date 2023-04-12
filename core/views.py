@@ -1,7 +1,7 @@
 from django.shortcuts import render , redirect
 from django.contrib.auth.models import User, auth
 from django.http import HttpResponse
-from .models import Profile ,Post,LikePost,Followers,Thread
+from .models import Profile ,Post,LikePost,Followers,Thread,Review
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from itertools import chain
@@ -51,6 +51,9 @@ def index(request):
     suggestion_profile_list = list(chain(*username_profile_list))
     return render(request,'index.html',{'user_object':user_object,'user_profile':user_profile,'posts':feed_list,'suggestion_profile_list':suggestion_profile_list[:4]})
 
+def home(request):
+    return render(request,'main.html')
+
 def signup(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -95,7 +98,7 @@ def signin(request):
 
         if user is not None:
             auth.login(request,user)
-            return redirect('/')
+            return redirect('/home')
         else:
             messages.info(request,'Credentials are Invalid ')
             return redirect('signin')
@@ -118,26 +121,26 @@ def settings(request):
             image =user_profile.profileimg
             bio = request.POST['bio']
             location = request.POST['location']
-            year = request.POST['year']
+            # year = request.POST['year']
 
 
             user_profile.profileimg = image
             user_profile.bio = bio
             user_profile.location = location
-            user_profile.year = year 
+            # user_profile.year = year 
 
             user_profile.save()
         if request.FILES.get('image') != None:
             image = request.FILES.get('image')
             bio = request.POST['bio']
             location = request.POST['location']
-            year = request.POST['year']
+            # year = request.POST['year']
 
 
             user_profile.profileimg = image
             user_profile.bio = bio
             user_profile.location = location
-            user_profile.year = year 
+            # user_profile.year = year 
             user_profile.save()
 
         return redirect('settings')
@@ -154,11 +157,25 @@ def upload(request):
         new_post = Post.objects.create(user=user,image=image,caption=caption)
         new_post.save()
 
+        return redirect('/home')
+    
+    else:
+        return redirect('/home')
+
+def review(request):
+    if request.method ==  "POST":
+        user = request.POST['name']
+        email = request.POST['email']
+        description = request.POST['description']
+
+        new_rev = Review.objects.create(name=user,email=email,desc=description)
+        new_rev.save()
+
         return redirect('/')
     
     else:
-        return redirect('/')
-    
+        return redirect('/') 
+
 @login_required(login_url='signin')
 def like_post(request):
     username = request.user.username
@@ -172,12 +189,12 @@ def like_post(request):
         new_like.save()
         post.noOfLikes=post.noOfLikes+1
         post.save()
-        return redirect('/')
+        return redirect('/home')
     else:
         like_filter.delete()
         post.noOfLikes=post.noOfLikes-1
         post.save()
-        return redirect('/')
+        return redirect('/home')
 
 @login_required(login_url='signin')
 def profile(request, pk):
@@ -245,7 +262,7 @@ def follow(request):
             new_follower.save()
             return redirect('/profile/'+user)
     else:
-        return redirect('/')
+        return redirect('/home')
     
 @login_required(login_url='signin')
 def messages_page(request):
