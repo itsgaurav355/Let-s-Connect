@@ -57,17 +57,16 @@
                             color:red;
                         }
                     </style>
-                    {% for message in messages %}
-                    
-                    <h5>{{message}}</h5>
-                    {% endfor %}
+                    {%if messages == "Credentials are Invalid "%}
+                    <h5>{{messages}}</h5>
+                    {%endif%}
                 </div>
 
 
-                <form action="" method="POST">
+                <form action="" method="POST" required> 
                     {% csrf_token %}
-                    <input type="text" name = "username" placeholder="Enter your username" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
-                    <input type="password" name= "password" placeholder="Enter your Password " class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
+                    <input type="text" required name = "username" placeholder="Enter your username" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
+                    <input type="password" required name= "password" placeholder="Enter your Password " class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
                     <div class="flex justify-between my-4">
                         <div class="checkbox">
                             <input type="checkbox" id="chekcbox1" checked>

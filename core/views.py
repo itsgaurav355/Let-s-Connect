@@ -1,33 +1,33 @@
 from django.shortcuts import render , redirect
 from django.contrib.auth.models import User, auth
 from django.http import HttpResponse
-from .models import Profile ,Post,LikePost,Followers,Thread,Review
-from django.contrib import messages
+from .models import Profile ,Post,LikePost,Followers,Review
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 import random
+
 # Create your views here.
 @login_required(login_url='signin')
 def index(request):
     user_object = User.objects.get(username=request.user.username)
-    user_profile =Profile.objects.get(user = user_object)
+    user_profile = Profile.objects.get(user = user_object)
 
     user_following_list =[]
     feed = []
 
-    user_following =Followers.objects.filter(follower=request.user.username)
-
+    user_following = Followers.objects.filter(follower=request.user.username)
+    
     for users in user_following:
         user_following_list.append(users.user)
     
     for usernames in user_following_list:
         feed_lists = Post.objects.filter(user=usernames)
         feed.append(feed_lists)
-
+       
     feed_list = list(chain(*feed))
     
     #Suggestion list for a user
-    all_users = User.objects.all()
+    all_users = User.objects.all() # lenscart dmart subways ... 
     user_following_all = []
     for user in user_following:
         user_list = User.objects.get(username=user.user)
@@ -61,7 +61,7 @@ def signup(request):
         password = request.POST['password']
         password2 = request.POST['password2']
 
-        if password == password2:
+        if password == password2 :
             if User.objects.filter(email=email).exists():
                 messages.info(request, 'Email Taken')
                 return redirect('signup')
@@ -100,8 +100,8 @@ def signin(request):
             auth.login(request,user)
             return redirect('/home')
         else:
-            messages.info(request,'Credentials are Invalid ')
-            return redirect('signin')
+            messages = 'Credentials are Invalid '
+            return render(request,'signin.html',{'messages':messages})
     else:
         pass
     return render(request,'signin.html')
@@ -264,14 +264,3 @@ def follow(request):
     else:
         return redirect('/home')
     
-@login_required(login_url='signin')
-def messages_page(request):
-    user_object = User.objects.get(username=request.user.username)
-    user_profile = Profile.objects.get(user=user_object)
-    threads = Thread.objects.by_user(user=request.user).prefetch_related('chatmessage_thread').order_by('timestamp')
-    context = {
-        'user_object': user_object,
-        'user_profile': user_profile,
-        'Threads': threads
-    }
-    return render(request,'messages.html',context)
