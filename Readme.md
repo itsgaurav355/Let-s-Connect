@@ -1,7 +1,5 @@
 # Let's Connect - Social Media Platform
 
-![Social Media Platform](static/images/myimg.jpg)
-
 A full-featured social media platform with real-time messaging, post interactions, and user connections.
 
 ## Features
