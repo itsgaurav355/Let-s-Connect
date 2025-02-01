@@ -1,10 +1,11 @@
 from django.shortcuts import render , redirect
 from django.contrib.auth.models import User, auth
-from django.http import HttpResponse
-from .models import Profile ,Post,LikePost,Followers,Review
+from django.http import HttpResponse, JsonResponse
+from .models import Profile ,Post,LikePost,Followers,Review, Message
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 import random
+from django.db.models import Q
 
 # Create your views here.
 @login_required(login_url='signin')
@@ -263,4 +264,72 @@ def follow(request):
             return redirect('/profile/'+user)
     else:
         return redirect('/home')
+
+@login_required(login_url='signin')
+def messages_page(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    
+    # Get all followers and following users
+    followers = Followers.objects.filter(Q(follower=request.user.username) | Q(user=request.user.username))
+    chat_partners = User.objects.filter(
+        Q(username__in=[f.user for f in followers]) |
+        Q(username__in=[f.follower for f in followers])
+    ).exclude(username=request.user.username).distinct()
+
+    return render(request, 'messages.html', {
+        'user_profile': user_profile,
+        'chat_partners': chat_partners
+    })
+
+@login_required(login_url='signin')
+def get_messages(request, chat_partner_id):
+    chat_partner = User.objects.get(id=chat_partner_id)
+    messages = Message.objects.filter(
+        Q(sender=request.user, receiver=chat_partner) |
+        Q(sender=chat_partner, receiver=request.user)
+    ).order_by('timestamp')
+    
+    # Mark messages as read
+    unread_messages = messages.filter(is_read=False, receiver=request.user)
+    unread_messages.update(is_read=True)
+    
+    return JsonResponse([{
+        'sender': msg.sender.username,
+        'content': msg.content,
+        'timestamp': msg.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+    } for msg in messages], safe=False)
+
+@login_required(login_url='signin')
+def send_message(request):
+    if request.method == 'POST':
+        receiver_id = request.POST.get('receiver_id')
+        content = request.POST.get('content')
+        
+        receiver = User.objects.get(id=receiver_id)
+        message = Message.objects.create(
+            sender=request.user,
+            receiver=receiver,
+            content=content
+        )
+        
+        return JsonResponse({
+            'status': 'success',
+            'message_id': message.id
+        })
+    return JsonResponse({'status': 'error'})
+
+@login_required
+def send_typing(request):
+    if request.method == 'POST':
+        receiver_id = request.POST.get('receiver_id')
+        is_typing = request.POST.get('is_typing')
+        # Implement your typing indicator logic here
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'})
+
+@login_required
+def check_typing(request, chat_partner_id):
+    # Implement your typing status check here
+    return JsonResponse({'is_typing': False, 'username': ''})
     
