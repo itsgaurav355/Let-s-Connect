@@ -59,3 +59,11 @@ class Message(models.Model):
 
     def __str__(self):
         return f'{self.sender} to {self.receiver}: {self.content}'
+    
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user}: {self.message}'

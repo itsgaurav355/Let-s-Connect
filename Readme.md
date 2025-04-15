@@ -1,4 +1,4 @@
-# Let's Connect - Social Media Platform
+# Connect Sphere - Social Media Platform
 
 A full-featured social media platform with real-time messaging, post interactions, and user connections.
 
